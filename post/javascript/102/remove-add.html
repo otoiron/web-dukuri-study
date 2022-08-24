@@ -17,7 +17,7 @@
 
 <link rel="stylesheet" href="../../../assets/css/normalize.min.css">
   <link rel="stylesheet" href="../../../assets/css/style.css">
-  <title>JavaScript初学者講座 id:102 .remove</title>
+  <title>JavaScript初学者講座 id:102 .add</title>
   <style>
     .list li {
       display: flex;
@@ -29,36 +29,39 @@
       margin-top: 20px;
       padding-top: 20px;
     }
+    .button {
+      margin-left: 24px;  
+    }
   </style>
 </head>
 <body>
 
-  <ul class="list">
-    <li>テスト1<div class="button button--delete">削除</div></li>
-    <li>テスト2<div class="button button--delete">削除</div></li>
-    <li>テスト3<div class="button button--delete">削除</div></li>
-  </ul>
+<ul class="list">
+  <li>テスト1<div class="button button--delete">削除</div></li>
+  <li>テスト2<div class="button button--delete">削除</div></li>
+  <li>テスト3<div class="button button--delete">削除</div></li>
+</ul>
+
+<button class="button button--add">追加</button>
+
+<script>
+  const list = document.querySelector(".list");
+  const listItem = list.children;
+
+  for( let i = 0; i < listItem.length; i++) {
+    const itemDeleteButton = listItem[i].querySelector('.button--delete');
+    itemDeleteButton.addEventListener("click", () => {
+      listItem[i].remove();
+    })
+  }
+
+  const addButton = document.querySelector(".button--add");
   
-  <button class="button button--add">追加</button>
-  
-  <script>
-    const list = document.querySelector(".list");
-    const listItem = list.children;
-  
-    for( let i = 0; i < listItem.length; i++) {
-      const deleteButton = listItem[i].querySelector('.button--delete');
-      deleteButton.addEventListener("click", () => {
-        listItem[i].remove();
-      })
-    }
-  
-    const addButton = document.querySelector(".button--add");
-    
-    addButton.addEventListener("click", () => {
-      const listItemElement = document.createElement("li");
-      listItemElement.innerHTML = "テスト" + (listItem.length + 1) + "<div class=\"button button--delete\">削除</div>";
-      list.appendChild(listItemElement);
-    });
-  </script>
+  addButton.addEventListener("click", () => {
+    const listItemElement = document.createElement("li");
+    listItemElement.innerHTML = "テスト<div class=\"button button--delete\">削除</div>";
+    list.appendChild(listItemElement);
+  });
+</script>
 </body>
 </html>

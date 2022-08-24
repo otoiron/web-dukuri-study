@@ -50,8 +50,8 @@
   const listItem = document.querySelectorAll(".list li");
 
   for( let i = 0; i < listItem.length; i++) {
-    const deleteButton = listItem[i].querySelector('.button--delete');
-    deleteButton.addEventListener("click", () => {
+    const itemDeleteButton = listItem[i].querySelector('.button--delete');
+    itemDeleteButton.addEventListener("click", () => {
       listItem[i].remove();
     })
   }

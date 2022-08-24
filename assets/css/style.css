@@ -2,12 +2,18 @@
   appearance: none;
   background-color: #fff;
   border: 1px solid #ccc;
+  border-radius: 4px;
   color: #333;
   cursor: pointer;
   text-align: center;
-  margin: 20px;
   padding: 12px 16px;
 }
 .button:hover {
   opacity: .7;
+}
+
+.inputText {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 12px;
 }
