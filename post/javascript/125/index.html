@@ -60,126 +60,116 @@
       <div class="button button--submit hidden">決定</div>
     </div>
   </li>
-</ul>
-
-<button class="button button--add">追加</button>
-  
-<script>
-  // HTMLを変数に代入
-  const list = {
-    $wrapper: document.querySelector(".list"),
-    $item: document.querySelectorAll(".list__item"),
-    itemBody: ".list__itemBody",
-    delete: ".button--delete",
-    edit: ".button--edit",
-    submit: ".button--submit"
-  }
-  
-  itemEditButton.addEventListener("click", () => {
-
-    const inputForm = document.createElement("input");
-    inputForm.type = "text";
-    inputForm.className = "inputText";
-    inputForm.value = list.itemBody.textContent;
-
-    itemBody.replaceChildren(inputForm);
-
-    itemDeleteButton.classList.add("hidden");
-    itemEditButton.classList.add("hidden");
-    itemSubmitButton.classList.remove("hidden");
-
-  });
-
-  // ページ読み込み時点で表示されているli要素にボタンの機能を関連づける
-  for( let i = 0; i < list.$item.length; i++) {
-
-    // li内の要素を変数に代入
-    const listItem = {
-      body: list.$item[i].querySelector(list.itemBody),
-      deleteButton: list.$item[i].querySelector(list.delete),
-      editButton: list.$item[i].querySelector(list.edit),
-      submitButton: list.$item[i].querySelector(list.submit)
-    }
-
-    // 削除ボタン
-    listItem.deleteButton.addEventListener("click", () => {
-      
-      list.$item[i].remove();
-
-    });
-
-    // 編集ボタン
-
-
-    // 編集後の決定ボタン
-    itemSubmitButton.addEventListener("click", () => {
-      const inputForm = listItem[i].querySelector(".inputText");
-      itemBody.replaceChildren(inputForm.value);
-
-      itemDeleteButton.classList.remove("hidden");
-      itemEditButton.classList.remove("hidden");
-      itemSubmitButton.classList.add("hidden");
-    });
-
-  }
-
-  
-  // 追加ボタン
-  const addButton = document.querySelector(".button--add");
-  
-  addButton.addEventListener("click", () => {
-
-    // 追加時のli要素を作成
-    const listItemElement = document.createElement("li");
-    listItemElement.className = "list__item";
-    listItemElement.innerHTML = `
+  <li class="list__item">
     <div class="list__itemBody">テスト</div>
     <div class="list__itemButtons">
       <div class="button button--delete">削除</div>
       <div class="button button--edit">編集</div>
       <div class="button button--submit hidden">決定</div>
-      </div>
-    `;
-    
-    // 追加したli内の要素を変数に代入
-    const itemDeleteButton = listItemElement.querySelector(deleteButton);
-    const itemEditButton = listItemElement.querySelector(editButton);
-    const itemSubmitButton = listItemElement.querySelector(submitButton);
-    const itemBody = listItemElement.querySelector(listItemBody);
+    </div>
+  </li>
+  <li class="list__item">
+    <div class="list__itemBody">テスト</div>
+    <div class="list__itemButtons">
+      <div class="button button--delete">削除</div>
+      <div class="button button--edit">編集</div>
+      <div class="button button--submit hidden">決定</div>
+    </div>
+  </li>
+</ul>
 
-    // 削除ボタン
-    itemDeleteButton.addEventListener("click", () => {
-      listItemElement.remove();
-    })
+<button class="button button--add">追加</button>
 
-    // 編集ボタン
-    itemEditButton.addEventListener("click", () => {
+<script>
 
+class ListCreate {
+
+  constructor() {
+      const listItem = document.querySelectorAll(".list__item");
+      this.add();
+
+        listItem.forEach(value =>{
+          const el = this.elements(value);
+          this.delete(el, value);
+          this.edit(el, value)
+          this.submit(el, value);
+        })
+  }
+
+  // リストの要素をオブジェクトに代入
+  elements(listItem) {
+      const element = {
+        itemBody: listItem.querySelector(".list__itemBody"),
+        itemDeleteButton: listItem.querySelector(".button--delete"),
+        itemEditButton: listItem.querySelector(".button--edit"),
+        itemSubmitButton: listItem.querySelector(".button--submit")
+      }
+      return element;
+  }
+  
+  // 編集
+  edit(el, listItem) {
+    el.itemEditButton.addEventListener("click", () => {
       const inputForm = document.createElement("input");
       inputForm.type = "text";
       inputForm.className = "inputText";
-      inputForm.value = itemBody.textContent;
+      inputForm.value = el.itemBody.textContent;
 
-      itemBody.replaceChildren(inputForm);
+      el.itemBody.replaceChildren(inputForm);
       
-      itemDeleteButton.classList.add("hidden");
-      itemEditButton.classList.add("hidden");
-      itemSubmitButton.classList.remove("hidden");
-
+      el.itemDeleteButton.classList.add("hidden");
+      el.itemEditButton.classList.add("hidden");
+      el.itemSubmitButton.classList.remove("hidden");
     });
+  }
 
-    // 編集後の決定ボタン
-    itemSubmitButton.addEventListener("click", () => {
-      const inputForm = listItemElement.querySelector(".inputText");
-      itemBody.replaceChildren(inputForm.value);
+  // 編集決定
+  submit(el, listItem) {
+    el.itemSubmitButton.addEventListener("click", () => {
+      const inputForm = listItem.querySelector(".inputText");
 
-      itemDeleteButton.classList.remove("hidden");
-      itemEditButton.classList.remove("hidden");
-      itemSubmitButton.classList.add("hidden");
+      el.itemBody.replaceChildren(inputForm.value);
+
+      el.itemDeleteButton.classList.remove("hidden");
+      el.itemEditButton.classList.remove("hidden");
+      el.itemSubmitButton.classList.add("hidden");
     });
+  }
 
-    list.appendChild(listItemElement);
-  });
+  // 削除
+  delete(el, listItem) {
+    el.itemDeleteButton.addEventListener("click", () => {
+      listItem.remove();
+    });
+  }
+
+  // 追加
+  add() {
+    const list = document.querySelector(".list");
+    const itemAddButton = document.querySelector(".button--add");
+
+    itemAddButton.addEventListener("click", () => {
+      const listItem = document.createElement("li");
+      listItem.className = "list__item";
+      listItem.innerHTML = `
+        <div class="list__itemBody">テスト</div>
+        <div class="list__itemButtons">
+          <div class="button button--delete">削除</div>
+          <div class="button button--edit">編集</div>
+          <div class="button button--submit hidden">決定</div>
+        </div>
+      `;
+
+      const el = this.elements(listItem);
+      this.delete(el, listItem);
+      this.edit(el, listItem)
+      this.submit(el, listItem);
+      list.appendChild(listItem);
+    })
+  }
+}
+
+new ListCreate();
 
 </script>
 </body>
