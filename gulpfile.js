@@ -15,7 +15,7 @@ gulp.task("sass", function () {
     return gulp.src('src/scss/**/*.scss')
         .pipe(sass().on('error', sass.logError))
         .pipe(autoprefixer())
-        .pipe(gulp.dest('./dist/assets/css'));
+        .pipe(gulp.dest('./static-sample/assets/css'));
 });
 
 // EJS
@@ -25,7 +25,7 @@ gulp.task("ejs", function () {
         .pipe(rename({
             extname: '.html'
         }))
-        .pipe(gulp.dest("./dist/"));
+        .pipe(gulp.dest("./static-sample"));
 });
 
 
@@ -33,7 +33,7 @@ gulp.task("ejs", function () {
 gulp.task('build-server', function (done) {
     browserSync.init({
         server: {
-            baseDir: "./dist/"
+            baseDir: "./static-sample"
         }
     });
     done();
@@ -49,9 +49,8 @@ gulp.task('browser-reload', function (done) {
 
 // 監視ファイル
 gulp.task('watch-files', function (done) {
-    gulp.watch("./dist/*/*.html", gulp.task('browser-reload'));
-    gulp.watch("./dist/*/*/*.css", gulp.task('browser-reload'));
-    gulp.watch("./dist/*/*.js", gulp.task('browser-reload'));
+    gulp.watch("./static-sample*/*.html", gulp.task('browser-reload'));
+    gulp.watch("./static-sample*/*/*.css", gulp.task('browser-reload'));
     done();
     console.log('gulp watch started');
 })
