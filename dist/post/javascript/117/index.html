@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9NM46K66WK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-9NM46K66WK');
+  </script>
+  <link rel="stylesheet" href="../../../assets/css/style.css">
+  <title>JavaScript初学者講座 id:117 編集ボタン</title>
+</head>
+<body> 
+
+<style>
+  .list__item {
+    display: flex;
+    align-items: center;
+  }
+
+  .list__item + .list__item {
+    border-top: 1px solid #ccc;
+    margin-top: 16px;
+    padding-top: 16px;
+  }
+
+  .list__itemButtons {
+    display: flex;
+    align-items: center;
+    margin-left: 24px;
+  }
+
+  .button {
+    margin-left: 20px;
+  }
+
+  .button + .button {
+    margin-left: 12px;
+  }
+
+  .hidden {
+    display: none;
+  }
+</style>
+
+<ul class="list">
+  <li class="list__item">
+    <div class="list__itemBody">テスト</div>
+    <div class="list__itemButtons">
+      <div class="button button--delete">削除</div>
+      <div class="button button--edit">編集</div>
+      <div class="button button--submit hidden">決定</div>
+    </div>
+  </li>
+</ul>
+
+<button class="button button--add">追加</button>
+  
+<script>
+  // HTMLを変数に代入
+  const list = document.querySelector(".list");
+  const listItem = list.children;
+  const listItemBody = ".list__itemBody";
+  const deleteButton = ".button--delete";
+  const editButton = ".button--edit";
+  const submitButton = ".button--submit"
+  
+  // ページ読み込み時点で表示されているli要素にボタンの機能を関連づける
+  for( let i = 0; i < listItem.length; i++) {
+
+    // li内の要素を変数に代入
+    const itemBody = listItem[i].querySelector(listItemBody);
+    const itemDeleteButton = listItem[i].querySelector(deleteButton);
+    const itemEditButton = listItem[i].querySelector(editButton);
+    const itemSubmitButton = listItem[i].querySelector(submitButton);
+
+    // 削除ボタン
+    itemDeleteButton.addEventListener("click", () => {
+      
+      listItem[i].remove();
+
+    });
+
+    // 編集ボタン
+    itemEditButton.addEventListener("click", () => {
+
+      const inputForm = document.createElement("input");
+      inputForm.type = "text";
+      inputForm.className = "inputText";
+      inputForm.value = itemBody.textContent;
+
+      itemBody.replaceChildren(inputForm);
+      
+      itemDeleteButton.classList.add("hidden");
+      itemEditButton.classList.add("hidden");
+      itemSubmitButton.classList.remove("hidden");
+
+    });
+
+    // 編集後の決定ボタン
+    itemSubmitButton.addEventListener("click", () => {
+      const inputForm = listItem[i].querySelector(".inputText");
+      itemBody.replaceChildren(inputForm.value);
+
+      itemDeleteButton.classList.remove("hidden");
+      itemEditButton.classList.remove("hidden");
+      itemSubmitButton.classList.add("hidden");
+    });
+
+  }
+
+  
+  // 追加ボタン
+  const addButton = document.querySelector(".button--add");
+  
+  addButton.addEventListener("click", () => {
+
+    // 追加時のli要素を作成
+    const listItemElement = document.createElement("li");
+    listItemElement.className = "list__item";
+    listItemElement.innerHTML = `
+    <div class="list__itemBody">テスト</div>
+    <div class="list__itemButtons">
+      <div class="button button--delete">削除</div>
+      <div class="button button--edit">編集</div>
+      <div class="button button--submit hidden">決定</div>
+      </div>
+    `;
+    
+    // 追加したli内の要素を変数に代入
+    const itemDeleteButton = listItemElement.querySelector(deleteButton);
+    const itemEditButton = listItemElement.querySelector(editButton);
+    const itemSubmitButton = listItemElement.querySelector(submitButton);
+    const itemBody = listItemElement.querySelector(listItemBody);
+
+    // 削除ボタン
+    itemDeleteButton.addEventListener("click", () => {
+      listItemElement.remove();
+    })
+
+    // 編集ボタン
+    itemEditButton.addEventListener("click", () => {
+
+      const inputForm = document.createElement("input");
+      inputForm.type = "text";
+      inputForm.className = "inputText";
+      inputForm.value = itemBody.textContent;
+
+      itemBody.replaceChildren(inputForm);
+      
+      itemDeleteButton.classList.add("hidden");
+      itemEditButton.classList.add("hidden");
+      itemSubmitButton.classList.remove("hidden");
+
+    });
+
+    // 編集後の決定ボタン
+    itemSubmitButton.addEventListener("click", () => {
+      const inputForm = listItemElement.querySelector(".inputText");
+      itemBody.replaceChildren(inputForm.value);
+
+      itemDeleteButton.classList.remove("hidden");
+      itemEditButton.classList.remove("hidden");
+      itemSubmitButton.classList.add("hidden");
+    });
+
+    list.appendChild(listItemElement);
+  });
+
+</script>
+
+</body>
+</html> 

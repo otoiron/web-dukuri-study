@@ -1,0 +1,45 @@
+<%
+  var meta = {
+    title: 'JavaScript初学者講座 id:104 CSSの操作 アニメーション'
+  };
+%>
+<%- include('../../../component/_header', {meta: meta}) %> 
+
+<style>
+  body {
+    padding: 20px;
+    position: relative;
+  }
+  .button {
+    margin-bottom: 40px;
+  }
+  .box {
+    position: absolute;
+    height: 100px;
+    width: 100px;
+    left: 0;
+    background-color: #ccc;
+    top: 80px;
+  }
+</style>
+
+<button class="button">動かす</button>
+<div class="box"></div>
+
+<script>
+  const $box01 = document.querySelector(".box");
+  const $button = document.querySelector(".button");
+  
+  $button.addEventListener("click", () => {
+    let counter = 0;
+    const id = setInterval(function(e) {
+      ++counter
+      $box01.style.left = counter + "px";
+      if (counter > 300) {
+        clearInterval(id)
+      }
+    }, 5); // 繰り返しの時間をミリ秒で指定
+  });
+</script>
+
+<%- include('../../../component/_footer') %> 

@@ -1,0 +1,31 @@
+<%
+  var meta = {
+    title: 'JavaScript初学者講座 id:125 constructor'
+  };
+%>
+<%- include('../../../component/_header', {meta: meta}) %> 
+
+<script>
+
+  class Hello {
+    constructor(name) {
+      this.name = name;
+    }
+
+    goodMorning() {
+      alert("Good Morning " + this.name)
+    }
+
+    goodEvening() {
+      alert("Good Evening " + this.name)
+    }
+
+  }
+
+  const hello = new Hello("Taro");
+  hello.goodMorning();
+  hello.goodEvening();
+
+</script>
+
+<%- include('../../../component/_footer') %> 

@@ -1,0 +1,19 @@
+<%
+  var meta = {
+    title: 'JavaScript初学者講座 id:104 CSSの操作 背景色'
+  };
+%>
+<%- include('../../../component/_header', {meta: meta}) %> 
+
+<button class="changeBackground">背景色の変更</button>
+
+<script>
+  const body = document.querySelector("body");
+  const button = document.querySelector(".changeBackground");
+
+  button.addEventListener("click", () => {
+    body.style.backgroundColor = "#ccc";
+  }); 
+</script>
+
+<%- include('../../../component/_footer') %> 
