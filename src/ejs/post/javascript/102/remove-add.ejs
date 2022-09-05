@@ -1,0 +1,52 @@
+<%
+  var meta = {
+    title: 'JavaScript初学者講座 id:102 .add'
+  };
+%>
+<%- include('../../../component/_header', {meta: meta}) %> 
+
+<style>
+  .list li {
+    display: flex;
+    align-items: center;
+  }
+
+  .list li+li {
+    border-top: 1px solid #ccc;
+    margin-top: 20px;
+    padding-top: 20px;
+  }
+  .button {
+    margin-left: 24px;  
+  }
+</style>
+
+<ul class="list">
+  <li>テスト1<div class="button button--delete">削除</div></li>
+  <li>テスト2<div class="button button--delete">削除</div></li>
+  <li>テスト3<div class="button button--delete">削除</div></li>
+</ul>
+
+<button class="button button--add">追加</button>
+
+<script>
+  const list = document.querySelector(".list");
+  const listItem = list.children;
+
+  for( let i = 0; i < listItem.length; i++) {
+    const itemDeleteButton = listItem[i].querySelector('.button--delete');
+    itemDeleteButton.addEventListener("click", () => {
+      listItem[i].remove();
+    })
+  }
+
+  const addButton = document.querySelector(".button--add");
+  
+  addButton.addEventListener("click", () => {
+    const listItemElement = document.createElement("li");
+    listItemElement.innerHTML = "テスト<div class=\"button button--delete\">削除</div>";
+    list.appendChild(listItemElement);
+  });
+</script>
+
+<%- include('../../../component/_footer') %> 

@@ -1,0 +1,31 @@
+<%
+  var meta = {
+    title: 'JavaScript初学者講座 id:92'
+  };
+%>
+<%- include('../../../component/_header', {meta: meta}) %> 
+
+<style>
+  .button {
+    margin: 20px;
+  }
+</style>
+
+<button class="button">ボタン</button>
+<script>
+  const body = document.querySelector("body");
+  const button = document.querySelector(".button");
+  const clickButton = () => {
+    console.log("test");
+  }
+
+  button.addEventListener('click', (event) => {
+    if(event.timeStamp < 5000) {
+      body.style.backgroundColor = "red";
+    } else {
+      body.style.backgroundColor = "blue";
+    }
+  });
+</script>
+
+<%- include('../../../component/_footer') %> 

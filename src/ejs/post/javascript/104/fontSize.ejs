@@ -1,0 +1,33 @@
+<%
+  var meta = {
+    title: 'JavaScript初学者講座 id:104 CSSの操作 フォントサイズ'
+  };
+%>
+<%- include('../../../component/_header', {meta: meta}) %> 
+
+<p class="text" style="font-size: 20px;">下のボタンをクリックするとフォントサイズを変更できます。</p>
+<button class="sizeUp" data-fontsize="1">フォントを大きくする</button>
+<button class="sizeDown" data-fontsize="-1">フォントを小さくする</button>
+
+<script>
+  const $text = document.querySelector(".text");
+  const $sizeUpButton = document.querySelector(".sizeUp");
+  const $sizeDownButton = document.querySelector(".sizeDown");
+
+  const fontSizeChange = (num, $element) => {
+    num = Number(num);
+    const fontSize = (Number($element.style.fontSize.replace('px', '')) + num) + "px";
+    $element.style.fontSize = fontSize;
+  }
+
+  $sizeUpButton.addEventListener("click", () => {
+    fontSizeChange($sizeUpButton.dataset.fontsize, $text)
+  })
+
+  $sizeDownButton.addEventListener("click", () => {
+    fontSizeChange($sizeDownButton.dataset.fontsize, $text)
+  })
+
+</script>
+
+<%- include('../../../component/_footer') %> 

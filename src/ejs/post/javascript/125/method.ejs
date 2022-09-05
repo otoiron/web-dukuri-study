@@ -1,0 +1,37 @@
+<%
+  var meta = {
+    title: 'JavaScript初学者講座 id:125 メソッド'
+  };
+%>
+<%- include('../../../component/_header', {meta: meta}) %> 
+
+<script>
+
+class PriceSum {
+  constructor(num, price, taxRate) {
+    this.num = num;
+    this.price = price;
+    this.taxRate = taxRate;
+  }
+
+  subTotal() {
+    const value =  this.num * this.price
+    return value;
+  }
+
+  tax() {
+    const value = this.subTotal() * this.taxRate;
+    return value;
+  }
+
+  total() {
+    alert("お会計は" + (this.subTotal() + this.tax()) + "円（内消費税 " + this.tax() + "円）です。"  )
+  }
+
+}
+
+const priceSum = new PriceSum(2, 200, 0.08);
+priceSum.total() // お会計は432円（内消費税 32円）です。
+</script>
+
+<%- include('../../../component/_footer') %> 
