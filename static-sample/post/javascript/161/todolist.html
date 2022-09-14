@@ -1,0 +1,200 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name=”robots” content=”noindex” />
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9NM46K66WK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-9NM46K66WK');
+  </script>
+  <link rel="stylesheet" href="../../../assets/css/style.css">
+  <title>JavaScript初学者講座 id:161 ToDoリスト</title>
+</head>
+<body> 
+
+<style>
+  .list__item {
+    display: flex;
+    align-items: center;
+  }
+
+  .list__item + .list__item {
+    border-top: 1px solid #ccc;
+    margin-top: 16px;
+    padding-top: 16px;
+  }
+
+  .list__itemButtons {
+    display: flex;
+    align-items: center;
+    margin-left: 24px;
+  }
+
+  .button {
+    margin-left: 20px;
+  }
+
+  .button + .button {
+    margin-left: 12px;
+  }
+
+  .hidden {
+    display: none;
+  }
+</style>
+
+<ul class="list"></ul>
+
+<button class="button button--add">追加</button>
+
+<script>
+
+class ListCreate {
+
+  constructor() {
+      this.view();
+      const listItem = document.querySelectorAll(".list__item");
+      const state = JSON.parse(localStorage.getItem("todoList"));
+      this.add();
+
+        listItem.forEach((value, index) =>{
+          const el = this.elements(value);
+          this.delete(el, value);
+          this.edit(el, value)
+          this.submit(el, value);
+        })
+
+  }
+
+  // リストの要素をオブジェクトに代入
+  elements(listItem) {
+      const element = {
+        itemBody: listItem.querySelector(".list__itemBody"),
+        itemDeleteButton: listItem.querySelector(".button--delete"),
+        itemEditButton: listItem.querySelector(".button--edit"),
+        itemSubmitButton: listItem.querySelector(".button--submit")
+      }
+      return element;
+  }
+  
+  // 編集
+  edit(el, listItem) {
+    el.itemEditButton.addEventListener("click", () => {
+      const inputForm = document.createElement("input");
+      inputForm.type = "text";
+      inputForm.className = "inputText";
+      inputForm.value = el.itemBody.textContent;
+
+      el.itemBody.replaceChildren(inputForm);
+      
+      el.itemDeleteButton.classList.add("hidden");
+      el.itemEditButton.classList.add("hidden");
+      el.itemSubmitButton.classList.remove("hidden");
+    });
+  }
+
+  // 編集決定
+  submit(el, listItem) {
+    el.itemSubmitButton.addEventListener("click", () => {
+      const inputForm = listItem.querySelector(".inputText");
+
+      el.itemBody.replaceChildren(inputForm.value);
+
+      el.itemDeleteButton.classList.remove("hidden");
+      el.itemEditButton.classList.remove("hidden");
+      el.itemSubmitButton.classList.add("hidden");
+
+      this.update();
+    });
+  }
+
+  // 削除
+  delete(el, listItem, index) {
+    el.itemDeleteButton.addEventListener("click", () => {
+      listItem.remove();
+      this.update();
+    });
+  }
+
+  // 追加
+  add() {
+    const list = document.querySelector(".list");
+    const itemAddButton = document.querySelector(".button--add");
+
+    itemAddButton.addEventListener("click", () => {
+      const listItem = document.createElement("li");
+      listItem.className = "list__item";
+      listItem.innerHTML = `
+        <div class="list__itemBody">新規タスク</div>
+        <div class="list__itemButtons">
+          <div class="button button--delete">削除</div>
+          <div class="button button--edit">編集</div>
+          <div class="button button--submit hidden">決定</div>
+        </div>
+      `;
+
+      const el = this.elements(listItem);
+      this.delete(el, listItem);
+      this.edit(el, listItem)
+      this.submit(el, listItem);
+      list.appendChild(listItem);
+
+      this.update();
+
+    })
+  }
+
+  // 表示
+  view() {
+    const list = document.querySelector(".list");
+    const todoList = JSON.parse(localStorage.getItem("todoList"));
+    if ( todoList ) {
+      todoList.forEach(value => {
+        const listItem = document.createElement("li");
+        listItem.className = "list__item";
+        listItem.innerHTML = `
+          <div class="list__itemBody">${value.body}</div>
+          <div class="list__itemButtons">
+            <div class="button button--delete">削除</div>
+            <div class="button button--edit">編集</div>
+            <div class="button button--submit hidden">決定</div>
+          </div>`;
+        list.appendChild(listItem);
+      });
+    }
+  }
+
+  // 更新
+  update() {
+    const listItem = document.querySelectorAll(".list__item");
+    let todoList = [];
+    listItem.forEach((value, index) =>{
+      let bodyData = value.querySelector(".list__itemBody");
+      let data = {
+        id: index,
+        body: bodyData.textContent
+      }
+      todoList.push(data);
+    });
+    localStorage.removeItem("todoList");
+    localStorage.setItem("todoList", JSON.stringify(todoList));
+  }
+
+}
+
+new ListCreate();
+
+</script>
+
+  
+</body>
+</html> 

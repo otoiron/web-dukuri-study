@@ -5,5 +5,35 @@
 %>
 <%- include('../../../component/_header', {meta: meta}) %> 
 
+<div class="l-local">
+  <h2 class="c-heading">locaStorage</h2>
+  <input class="c-formInput--text" type="text">
+  <button class="c-formButton--save">テキストを保存する</button>
+  <button class="c-formButton--read">テキストを読み出す</button>
+  <button class="c-formButton--delete">テキストを削除</button>
+</div>
+<script>
+  const wrap = document.querySelector(".l-local");
+  const input = document.querySelector(".c-formInput--text");
+  const saveButton = document.querySelector(".c-formButton--save");
+  const readButton = document.querySelector(".c-formButton--read");
+  const deleteButton = document.querySelector(".c-formButton--delete");
+
+  saveButton.addEventListener("click", () => {
+    const text = input.value;
+    localStorage.setItem("inputText", text);
+  })
+
+  readButton.addEventListener("click", () => {
+    const text = localStorage.getItem("inputText");
+    input.value = text;
+  })
+
+  deleteButton.addEventListener("click", () => {
+    localStorage.removeItem("inputText");
+    input.value = "";
+  })
+</script>
+
   
 <%- include('../../../component/_footer') %> 

@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name=”robots” content=”noindex” />
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9NM46K66WK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-9NM46K66WK');
+  </script>
+  <link rel="stylesheet" href="../../../assets/css/style.css">
+  <title>JavaScript初学者講座 id:161 localStorage</title>
+</head>
+<body> 
+
+<div class="l-local">
+  <h2 class="c-heading">locaStorage</h2>
+  <input class="c-formInput--text" type="text">
+  <button class="c-formButton--save">LocalStorageに保存する</button>
+  <button class="c-formButton--read">LocalStorageを読み出す</button>
+  <button class="c-formButton--delete">LocalStorageを削除</button>
+</div>
+<script>
+  const wrap = document.querySelector(".l-local");
+  const input = document.querySelector(".c-formInput--text");
+  const saveButton = document.querySelector(".c-formButton--save");
+  const readButton = document.querySelector(".c-formButton--read");
+  const deleteButton = document.querySelector(".c-formButton--delete");
+
+  saveButton.addEventListener("click", () => {
+    const text = input.value;
+    localStorage.setItem("inputText", text);
+  })
+
+  readButton.addEventListener("click", () => {
+    const text = localStorage.getItem("inputText");
+    input.value = text;
+  })
+
+  deleteButton.addEventListener("click", () => {
+    localStorage.removeItem("inputText");
+    input.value = "";
+  })
+</script>
+
+  
+</body>
+</html> 

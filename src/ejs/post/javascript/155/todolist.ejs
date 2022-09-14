@@ -1,0 +1,174 @@
+<%
+  var meta = {
+    title: 'JavaScript初学者講座 id:155'
+  };
+%>
+<%- include('../../../component/_header', {meta: meta}) %> 
+
+<style>
+  .list__item {
+    display: flex;
+    align-items: center;
+  }
+
+  .list__item + .list__item {
+    border-top: 1px solid #ccc;
+    margin-top: 16px;
+    padding-top: 16px;
+  }
+
+  .list__itemButtons {
+    display: flex;
+    align-items: center;
+    margin-left: 24px;
+  }
+
+  .button {
+    margin-left: 20px;
+  }
+
+  .button + .button {
+    margin-left: 12px;
+  }
+
+  .hidden {
+    display: none;
+  }
+</style>
+
+<ul class="list"></ul>
+
+<button class="button button--add">追加</button>
+
+<script>
+
+class ListCreate {
+
+  constructor() {
+      this.view();
+      const listItem = document.querySelectorAll(".list__item");
+      this.add();
+
+        listItem.forEach(value =>{
+          const el = this.elements(value);
+          this.delete(el, value);
+          this.edit(el, value)
+          this.submit(el, value);
+        })
+  }
+
+  // リストの要素をオブジェクトに代入
+  elements(listItem) {
+      const element = {
+        itemBody: listItem.querySelector(".list__itemBody"),
+        itemDeleteButton: listItem.querySelector(".button--delete"),
+        itemEditButton: listItem.querySelector(".button--edit"),
+        itemSubmitButton: listItem.querySelector(".button--submit")
+      }
+      return element;
+  }
+
+  
+  // 編集
+  edit(el, listItem) {
+    el.itemEditButton.addEventListener("click", () => {
+      const inputForm = document.createElement("input");
+      inputForm.type = "text";
+      inputForm.className = "inputText";
+      inputForm.value = el.itemBody.textContent;
+
+      el.itemBody.replaceChildren(inputForm);
+      
+      el.itemDeleteButton.classList.add("hidden");
+      el.itemEditButton.classList.add("hidden");
+      el.itemSubmitButton.classList.remove("hidden");
+    });
+  }
+
+  // 編集決定
+  submit(el, listItem) {
+    el.itemSubmitButton.addEventListener("click", () => {
+      const inputForm = listItem.querySelector(".inputText");
+
+      el.itemBody.replaceChildren(inputForm.value);
+
+      el.itemDeleteButton.classList.remove("hidden");
+      el.itemEditButton.classList.remove("hidden");
+      el.itemSubmitButton.classList.add("hidden");
+    });
+  }
+
+  // 削除
+  delete(el, listItem) {
+    el.itemDeleteButton.addEventListener("click", () => {
+      listItem.remove();
+    });
+  }
+
+  // 追加
+  add() {
+    const list = document.querySelector(".list");
+    const itemAddButton = document.querySelector(".button--add");
+
+    itemAddButton.addEventListener("click", () => {
+      const listItem = document.createElement("li");
+      listItem.className = "list__item";
+      listItem.innerHTML = `
+        <div class="list__itemBody">新規タスク</div>
+        <div class="list__itemButtons">
+          <div class="button button--delete">削除</div>
+          <div class="button button--edit">編集</div>
+          <div class="button button--submit hidden">決定</div>
+        </div>
+      `;
+
+      const el = this.elements(listItem);
+      this.delete(el, listItem);
+      this.edit(el, listItem)
+      this.submit(el, listItem);
+      list.appendChild(listItem);
+
+      const todoList = JSON.parse(localStorage.getItem("todoList"));
+      
+      const todoListData = [{
+        id: (todoList) ? todoList.length : 0,
+        body: el.itemBody.textContent
+      }]
+      
+      todoList[todoList.length] = todoListData;
+
+      localStorage.setItem("todoList", JSON.stringify(todoList));
+
+
+    })
+  }
+
+  // 表示
+  view() {
+    const list = document.querySelector(".list");
+    const todoList = JSON.parse(localStorage.getItem("todoList"));
+
+    todoList.forEach(value => {
+      const listItem = document.createElement("li");
+      listItem.className = "list__item";
+      listItem.innerHTML = `
+        <div class="list__itemBody">${value.body}</div>
+        <div class="list__itemButtons">
+          <div class="button button--delete">削除</div>
+          <div class="button button--edit">編集</div>
+          <div class="button button--submit hidden">決定</div>
+        </div>`;
+      list.appendChild(listItem);
+    });
+    
+  }
+}
+
+new ListCreate();
+
+const todoList = JSON.parse(localStorage.getItem("todoList"));
+console.log(todoList);
+</script>
+
+  
+<%- include('../../../component/_footer') %> 
